@@ -25,6 +25,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        TvIpTextBox.Text = "192.168.1.111";
 
         _manager = new SonyManagerService(_adbRunner);
         _adbRunner.Log += AppendLog;
