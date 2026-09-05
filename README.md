@@ -8,6 +8,10 @@
 
 Windows 工具请完整解压 ZIP 后运行 EXE；三个连接输入框均为中文，并内置配对图解。源码位于 `pc/`，构建见 [PC 构建说明](pc/README.md)。构建产物仅在 Releases 发布，不提交密钥、设备备份或日志。
 
+自动 5555 辅助 APK 已基于上游 v0.3.5 加入持续健康检查与恢复，配套版本为 **0.3.5-sony.1**，源码与更新注意事项见 [辅助服务说明](adb-auto-enable/README.md)。旧的 0.2.7-codex-fix 已归档；音量屏蔽 APK 仍使用 1.0.4。新包的电视长期恢复测试尚待完成。
+
+[下载新版辅助 APK 与 PC 1.0.5 测试包](https://github.com/gukey/SonyVolumeGuiKiller/releases/tag/adb-helper-v0.3.5-sony.1)。自动测试 8 项通过，Android lint 0 错误、31 条警告（含上游资源及界面警告）；PC 发布与窗口加载检查通过。当前电视 ADB 离线，未执行安装及断线/待机实测，因此作为预发布提供。
+
 ## 工具截图与使用步骤
 
 ![Windows 工具主界面](docs/images/tool-main.png)

@@ -2,7 +2,7 @@
 
 .NET 8 SDK，Windows x64。主界面和帮助窗口采用 WPF，项目图以资源形式嵌入 EXE。
 
-准备官方 Android platform-tools 的 adb.exe、AdbWinApi.dll、AdbWinUsbApi.dll，以及本项目的守护 APK 和自动 5555 辅助 APK（来自原始发行包）。不将这些二进制或授权密钥提交到 Git。
+准备官方 Android platform-tools 的 adb.exe、AdbWinApi.dll、AdbWinUsbApi.dll，以及本项目的守护 APK 1.0.4 和自动 5555 辅助 APK 0.3.5-sony.1（构建见 ../adb-auto-enable/README.md）。PC 1.0.5 内嵌新版辅助 APK；不将这些二进制或授权密钥提交到 Git。
 
 ```powershell
 dotnet publish SonyVolumeGuiKillerPcManager.csproj -c Release -o publish `
