@@ -1,5 +1,7 @@
 # SonyVolumeGuiKiller
 
+完整操作流程：[在线阅读](docs/详细使用与编译流程.md) · [下载 PDF](docs/详细使用与编译流程.pdf)。包含两个 APK 与 PC 的用途、配对安装、诊断恢复，以及三份源码的编译步骤。
+
 索尼 Android TV 音量弹窗管理工具，包含电视端 APK 1.0.4 和 Windows 电脑管理端。隐藏音量弹窗，同时保留遥控器调音量功能。
 
 ![项目功能总览](docs/images/project-overview.png)
