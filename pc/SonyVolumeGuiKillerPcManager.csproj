@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SonyVolumeGuiKillerPcManager</AssemblyName>
+    <RootNamespace>SonyVolumeGuiKillerPcManager</RootNamespace>
+    <Version>1.0.4</Version>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+    <AdbToolsDir Condition="'$(AdbToolsDir)' == ''">$(MSBuildThisFileDirectory)..\..\exe\tools</AdbToolsDir>
+    <AutoEnableApk Condition="'$(AutoEnableApk)' == ''">$(MSBuildThisFileDirectory)..\..\apk\02_AdbAutoEnable5555_自动恢复5555.apk</AutoEnableApk>
+    <GuardApk Condition="'$(GuardApk)' == ''">$(MSBuildThisFileDirectory)..\..\apk\SonyVolumeGuiKiller-1.0.4-debug.apk</GuardApk>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(AdbToolsDir)\adb.exe" LogicalName="EmbeddedTools.adb.exe" />
+    <EmbeddedResource Include="$(AdbToolsDir)\AdbWinApi.dll" LogicalName="EmbeddedTools.AdbWinApi.dll" />
+    <EmbeddedResource Include="$(AdbToolsDir)\AdbWinUsbApi.dll" LogicalName="EmbeddedTools.AdbWinUsbApi.dll" />
+    <EmbeddedResource Include="$(AutoEnableApk)" LogicalName="EmbeddedTools.adb-auto-enable-fix.apk" />
+    <Content Include="$(GuardApk)" Link="apk\SonyVolumeGuiKiller-release.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <Resource Include="ok.png" Link="Resources\ok.png" />
+    <Resource Include="Resources\project-overview.png" />
+  </ItemGroup>
+</Project>

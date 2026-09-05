@@ -1,6 +1,32 @@
 # SonyVolumeGuiKiller
 
-索尼 Android TV 音量 GUI 守护应用。此仓库从本地 `02_电视App源码` 导入电视端源码，版本 1.0.4（高于真机已有的 1.0.3）；不包含 PC 客户端、自动开启 ADB 的独立应用或授权密钥。
+索尼 Android TV 音量弹窗管理工具，包含电视端 APK 1.0.4 和 Windows 电脑管理端。隐藏音量弹窗，同时保留遥控器调音量功能。
+
+![项目功能总览](docs/images/project-overview.png)
+
+[下载 APK 与 Windows 工具包](https://github.com/gukey/SonyVolumeGuiKiller/releases/tag/v1.0.4) · [图文使用说明](docs/使用说明.md)
+
+Windows 工具请完整解压 ZIP 后运行 EXE；三个连接输入框均为中文，并内置配对图解。源码位于 `pc/`，构建见 [PC 构建说明](pc/README.md)。构建产物仅在 Releases 发布，不提交密钥、设备备份或日志。
+
+## 工具截图与使用步骤
+
+![Windows 工具主界面](docs/images/tool-main.png)
+
+以上是实际窗口渲染的演示界面，IP、端口、配对码均为示例；设备状态未连接，不代表真机诊断结果。
+
+1. 完整解压 Windows 工具包，运行 EXE，在左侧填电视 IP。
+2. 先记下电视“无线调试”主页面的调试端口，再打开“使用配对码配对设备”。
+3. 将配对弹窗中的端口和六位配对码填入①②，主页面的调试端口填入③；保持弹窗打开，点击“连接电视”。
+4. 已配对时①②一起留空，只填当前调试端口；已开启固定网络 ADB 时可使用 5555。
+5. 安装前备份；完成安装与授权后检查拦截状态。签名不同的旧 APK 不能直接覆盖，授权数据需要单独备份。
+
+![EXE 内置配对图解](docs/images/connection-guide.png)
+
+点击连接区“这三项怎么填？查看图解”或左侧“说明”，即可离线查看上述帮助。
+
+![EXE 项目功能说明页](docs/images/project-help.png)
+
+“这个项目做什么”标签解释电脑工具、电视守护和观看效果。完整安装、连接、适用范围见 [图文使用说明](docs/使用说明.md)。
 
 ## 本次稳定性修复
 

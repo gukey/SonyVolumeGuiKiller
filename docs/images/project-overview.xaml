@@ -1,0 +1,23 @@
+<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="1200" Height="700" Background="#F3F6FC">
+ <StackPanel Margin="48">
+  <TextBlock Text="索尼电视音量弹窗管理工具" FontFamily="Microsoft YaHei" FontSize="38" FontWeight="Bold" Foreground="#172033"/>
+  <TextBlock Text="隐藏音量弹窗，保留遥控器调音量" FontFamily="Microsoft YaHei" FontSize="23" Foreground="#53627A" Margin="0,12,0,32"/>
+  <Border Background="#172033" CornerRadius="18" Padding="24" Margin="0,0,0,26">
+   <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="80"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <StackPanel><TextBlock Text="使用前" Foreground="#93C5FD" FontSize="17"/><TextBlock Text="调节音量时弹出系统音量条" Foreground="White" FontSize="23" Margin="0,8,0,0"/></StackPanel>
+    <TextBlock Grid.Column="1" Text="→" FontSize="32" Foreground="#93C5FD" VerticalAlignment="Center"/>
+    <StackPanel Grid.Column="2"><TextBlock Text="启用守护后" Foreground="#5EEAD4" FontSize="17"/><TextBlock Text="声音照常变化，音量弹窗隐藏" Foreground="White" FontSize="23" Margin="0,8,0,0"/></StackPanel>
+   </Grid>
+  </Border>
+  <Grid Height="240">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <Border Background="White" CornerRadius="16" Padding="22"><StackPanel><TextBlock Text="01  电脑端 EXE" FontSize="23" FontWeight="Bold" Foreground="#1D4ED8"/><TextBlock Text="连接 · 安装 · 授权" FontSize="21" Foreground="#172033" Margin="0,18,0,12"/><TextBlock Text="配对电视、备份 APK&#x0a;安装应用、写入授权&#x0a;查看状态与故障日志" FontSize="18" LineHeight="32" Foreground="#53627A"/></StackPanel></Border>
+   <TextBlock Grid.Column="1" Text="→" FontSize="29" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#64748B"/>
+   <Border Grid.Column="2" Background="White" CornerRadius="16" Padding="22"><StackPanel><TextBlock Text="02  电视端 APK" FontSize="23" FontWeight="Bold" Foreground="#7E22CE"/><TextBlock Text="后台守护 · 自动重试" FontSize="21" Foreground="#172033" Margin="0,18,0,12"/><TextBlock Text="监听音量键与界面变化&#x0a;通过电视本机 ADB 检查&#x0a;失败重试、唤醒后复查" FontSize="18" LineHeight="32" Foreground="#53627A"/></StackPanel></Border>
+   <TextBlock Grid.Column="3" Text="→" FontSize="29" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#64748B"/>
+   <Border Grid.Column="4" Background="#E8F8F2" CornerRadius="16" Padding="22"><StackPanel><TextBlock Text="03  观看体验" FontSize="23" FontWeight="Bold" Foreground="#047857"/><TextBlock Text="音量可调 · 弹窗隐藏" FontSize="21" Foreground="#172033" Margin="0,18,0,12"/><TextBlock Text="保留遥控器音量功能&#x0a;不是静音或锁定音量&#x0a;配置完成后电脑可关闭" FontSize="18" LineHeight="32" Foreground="#53627A"/></StackPanel></Border>
+  </Grid>
+  <TextBlock Text="使用顺序：连接电视  →  备份旧版  →  安装与授权  →  验证拦截" FontSize="21" FontWeight="SemiBold" Foreground="#172033" Margin="0,28,0,14"/>
+  <TextBlock Text="适用条件：兼容的索尼 Android TV 固件 + 已启用无障碍 + 有效的本机 ADB 授权。" FontSize="17" Foreground="#667085"/>
+ </StackPanel>
+</Grid>
