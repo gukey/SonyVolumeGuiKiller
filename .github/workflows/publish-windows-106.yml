@@ -24,7 +24,7 @@ jobs:
           $stage = Join-Path $env:RUNNER_TEMP 'sony-release'
           $package = Join-Path $stage 'SonyVolumeGuiKiller-PC-1.0.6-win-x64'
           New-Item -ItemType Directory -Force -Path $inputDir,$package | Out-Null
-          gh release download adb-helper-v0.3.5-sony.1 --pattern AdbAutoEnable5555-0.3.5-sony.1-debug.apk --pattern SonyVolumeGuiKiller-PC-1.0.5-win-x64.zip --dir $inputDir
+          gh release download adb-helper-v0.3.5-sony.1 --pattern AdbAutoEnable5555-0.3.5-sony.1-debug.apk --dir $inputDir
           Check-Exit
           gh release download v1.0.6 --pattern SonyVolumeGuiKiller-1.0.5-debug.apk --dir $inputDir
           Check-Exit
@@ -32,18 +32,18 @@ jobs:
           $guard = Join-Path $inputDir 'SonyVolumeGuiKiller-1.0.5-debug.apk'
           if ((Get-FileHash $helper).Hash -ne '820644DE7B7745C81ABF8DAB284E36E973643344A52D9089CC0949C38484371A') { throw 'Helper APK hash mismatch' }
           if ((Get-FileHash $guard).Hash -ne 'B26380FC152F202345AE4925F0E553828C9C49A65EAE04164D737E7DAD2B7C8B') { throw 'Guard APK hash mismatch' }
-          $previous = Join-Path $inputDir 'previous-pc'
-          Expand-Archive -LiteralPath (Join-Path $inputDir 'SonyVolumeGuiKiller-PC-1.0.5-win-x64.zip') -DestinationPath $previous
-          $oldPc = (Get-ChildItem $previous -Recurse -Filter SonyVolumeGuiKillerPcManager.exe | Select-Object -First 1).DirectoryName
-          if (-not $oldPc) { throw 'Previous PC package missing' }
-          $tools = Join-Path $oldPc 'tools'
+          $platformZip = Join-Path $inputDir 'platform-tools.zip'
+          Invoke-WebRequest -Uri 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip' -OutFile $platformZip
+          Expand-Archive -LiteralPath $platformZip -DestinationPath (Join-Path $inputDir 'android-tools')
+          $tools = Join-Path $inputDir 'android-tools/platform-tools'
+          if (-not (Test-Path (Join-Path $tools 'adb.exe'))) { throw 'Official ADB tools missing' }
           dotnet publish pc/SonyVolumeGuiKillerPcManager.csproj -c Release -r win-x64 --self-contained true -o $package "-p:AdbToolsDir=$tools" "-p:AutoEnableApk=$helper" "-p:GuardApk=$guard" --nologo
           Check-Exit
           if ((Get-Item (Join-Path $package 'SonyVolumeGuiKillerPcManager.exe')).VersionInfo.ProductVersion -notlike '1.0.6*') { throw 'EXE version mismatch' }
           if ((Get-FileHash (Join-Path $package 'apk/adb-auto-enable-fix.apk')).Hash -ne (Get-FileHash $helper).Hash) { throw 'Published helper mismatch' }
           if ((Get-FileHash (Join-Path $package 'apk/SonyVolumeGuiKiller-release.apk')).Hash -ne (Get-FileHash $guard).Hash) { throw 'Published guard mismatch' }
           Copy-Item -LiteralPath $tools -Destination $package -Recurse
-          Copy-Item -LiteralPath (Join-Path $oldPc 'images') -Destination $package -Recurse
+          Copy-Item -LiteralPath 'docs/images' -Destination $package -Recurse
           Copy-Item -LiteralPath README.md -Destination (Join-Path $package '使用说明.md')
           $pdb = Join-Path $package 'SonyVolumeGuiKillerPcManager.pdb'
           if (Test-Path $pdb) { Remove-Item -LiteralPath $pdb }
