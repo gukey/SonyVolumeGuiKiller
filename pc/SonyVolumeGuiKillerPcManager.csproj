@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>SonyVolumeGuiKillerPcManager</AssemblyName>
     <RootNamespace>SonyVolumeGuiKillerPcManager</RootNamespace>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -22,6 +22,7 @@
     <EmbeddedResource Include="$(AdbToolsDir)\AdbWinApi.dll" LogicalName="EmbeddedTools.AdbWinApi.dll" />
     <EmbeddedResource Include="$(AdbToolsDir)\AdbWinUsbApi.dll" LogicalName="EmbeddedTools.AdbWinUsbApi.dll" />
     <EmbeddedResource Include="$(AutoEnableApk)" LogicalName="EmbeddedTools.adb-auto-enable-fix.apk" />
+    <Content Include="$(AutoEnableApk)" Link="apk\adb-auto-enable-fix.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     <Content Include="$(GuardApk)" Link="apk\SonyVolumeGuiKiller-release.apk" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     <Resource Include="ok.png" Link="Resources\ok.png" />
     <Resource Include="Resources\project-overview.png" />

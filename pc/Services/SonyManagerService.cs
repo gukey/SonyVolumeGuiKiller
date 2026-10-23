@@ -636,8 +636,13 @@ public sealed partial class SonyManagerService
         stream.CopyTo(output);
     }
 
-    private static string AutoEnableApkPath() =>
-        Path.Combine(AppContext.BaseDirectory, "Resources", "adb-auto-enable-fix.apk");
+    private static string AutoEnableApkPath()
+    {
+        var apkPath = Path.Combine(AppContext.BaseDirectory, "apk", "adb-auto-enable-fix.apk");
+        var legacyPath = Path.Combine(AppContext.BaseDirectory, "Resources", "adb-auto-enable-fix.apk");
+        // Both install packages live beside the EXE in apk/. Keep older bundles usable.
+        return File.Exists(apkPath) || !File.Exists(legacyPath) ? apkPath : legacyPath;
+    }
 
     private async Task<int> ResolveActiveDebugPortAsync(string tvIp, int debugPort, CancellationToken cancellationToken)
     {

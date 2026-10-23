@@ -2,18 +2,25 @@
 
 完整操作流程：[在线阅读](docs/详细使用与编译流程.md) · [下载 PDF](docs/详细使用与编译流程.pdf)。包含两个 APK 与 PC 的用途、配对安装、诊断恢复，以及三份源码的编译步骤。
 
-索尼 Android TV 音量弹窗管理工具，包含电视端 APK 1.0.4 和 Windows 电脑管理端。隐藏音量弹窗，同时保留遥控器调音量功能。
+索尼 Android TV 音量弹窗管理工具，包含电视端 APK 1.0.5 和 Windows 电脑管理端 1.0.6。隐藏音量弹窗，同时保留遥控器调音量功能。
 
 ![项目功能总览](docs/images/project-overview.png)
 
-[下载 APK 与 Windows 工具包](https://github.com/gukey/SonyVolumeGuiKiller/releases/tag/v1.0.4) · [图文使用说明](docs/使用说明.md)
+[下载 APK 与 Windows 工具包](https://github.com/gukey/SonyVolumeGuiKiller/releases/tag/v1.0.6) · [图文使用说明](docs/使用说明.md)
 
 Windows 工具请完整解压 ZIP 后运行 EXE；三个连接输入框均为中文，并内置配对图解。源码位于 `pc/`，构建见 [PC 构建说明](pc/README.md)。构建产物仅在 Releases 发布，不提交密钥、设备备份或日志。
 
-自动 5555 辅助 APK 已基于上游 v0.3.5 加入持续健康检查与恢复，配套版本为 **0.3.5-sony.1**，源码与更新注意事项见 [辅助服务说明](adb-auto-enable/README.md)。旧的 0.2.7-codex-fix 已归档；音量屏蔽 APK 仍使用 1.0.4。已完成索尼电视短时故障恢复测试，长期运行仍需观察。
+自动 5555 辅助 APK 已基于上游 v0.3.5 加入持续健康检查与恢复，配套版本为 **0.3.5-sony.1**，源码与更新注意事项见 [辅助服务说明](adb-auto-enable/README.md)。旧的 0.2.7-codex-fix 已归档；音量屏蔽 APK 已更新到 1.0.5。已完成索尼电视短时故障恢复测试，长期运行仍需观察。
 
 [下载新版辅助 APK 与 PC 1.0.5 测试包](https://github.com/gukey/SonyVolumeGuiKiller/releases/tag/adb-helper-v0.3.5-sony.1)。自动测试 8 项通过，Android lint 0 错误、31 条警告（含上游资源及界面警告）；PC 发布与窗口加载检查通过。真机已验证进程终止后恢复、5555 中断后自动恢复和短时待机唤醒，详情见 [实测记录](docs/辅助服务实测.md)。长期稳定性尚待观察，保持预发布状态。
 
+## 最新电脑端 1.0.6
+
+电脑工具优先从 EXE 旁的 `apk/` 目录读取两个安装包：`SonyVolumeGuiKiller-release.apk`（音量守护 1.0.5）和 `adb-auto-enable-fix.apk`（自动 5555 0.3.5-sony.1）。自动 5555 的旧 `Resources/` 路径及内置 APK 保留回退；发布构建会同时输出两个外置 APK。请完整解压 Windows ZIP，保留目录和文件名。
+
+一键安装会安装自动 5555、授予 WRITE_SECURE_SETTINGS、写入 ADB 身份并恢复 5555，再安装音量守护、写入授权并启用其无障碍服务。需先完成电脑 ADB 授权；步骤失败时会停止，不能仅凭“已连接”判断全部完成。音量守护 1.0.5 的唤醒恢复说明见 [修复记录](docs/唤醒恢复修复-1.0.5.md)。
+
+本次 PC Release 发布构建、四项 APK 路径选择检查和窗口启动检查通过。电视端已完成短时安装及守护验证；完整重启、长时间深度待机和多日稳定性尚未验收。
 ## 工具截图与使用步骤
 
 ![Windows 工具主界面](docs/images/tool-main.png)
