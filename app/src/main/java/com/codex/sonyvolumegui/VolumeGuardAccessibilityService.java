@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
@@ -30,10 +31,20 @@ public final class VolumeGuardAccessibilityService extends AccessibilityService 
     private boolean pending;
     private boolean receiverRegistered;
     private int failures;
+    private final GuardTiming timing = new GuardTiming();
     private final Runnable guard = this::runGuard;
     private final BroadcastReceiver wakeReceiver = new BroadcastReceiver() {
-        @Override public void onReceive(Context context, Intent intent) { requestGuard(0); }
+        @Override public void onReceive(Context context, Intent intent) { recoverAfterWake(); }
     };
+
+    private void recoverAfterWake() {
+        timing.onWake(SystemClock.uptimeMillis());
+        Log.i(TAG, "wake recovery: checking for late volume controller registration for 30 seconds");
+        // A pre-sleep connection may be stuck until its normal 12-second deadline.
+        // Its completion will schedule the pending wake check on the same worker.
+        if (activeClient != null) activeClient.close();
+        requestGuard(0);
+    }
 
     static boolean isConnected() { return connectedService != null; }
 
@@ -83,19 +94,19 @@ public final class VolumeGuardAccessibilityService extends AccessibilityService 
             receiverRegistered = true;
         }
         RecoveryJobService.schedule(this, true);
-        requestGuard(0);
+        recoverAfterWake();
         Log.i(TAG, "accessibility service connected");
     }
 
     @Override public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event != null && "com.android.systemui".contentEquals(
-                event.getPackageName() == null ? "" : event.getPackageName())) requestGuard(300);
+                event.getPackageName() == null ? "" : event.getPackageName())) requestGuard(0);
     }
 
     @Override protected boolean onKeyEvent(KeyEvent event) {
         int code = event.getKeyCode();
         if (event.getAction() == KeyEvent.ACTION_DOWN && (code == KeyEvent.KEYCODE_VOLUME_UP ||
-            code == KeyEvent.KEYCODE_VOLUME_DOWN || code == KeyEvent.KEYCODE_VOLUME_MUTE)) requestGuard(300);
+            code == KeyEvent.KEYCODE_VOLUME_DOWN || code == KeyEvent.KEYCODE_VOLUME_MUTE)) requestGuard(0);
         return false;
     }
 
@@ -124,13 +135,14 @@ public final class VolumeGuardAccessibilityService extends AccessibilityService 
         if (!running || inFlight) return;
         inFlight = true;
         LocalAdbClient client = newClient(this);
+        final boolean recovering = timing.recovering(SystemClock.uptimeMillis());
         activeClient = client;
         try {
             executor.execute(() -> {
                 boolean success = false;
                 String message;
                 try {
-                    success = controllerHidden(client.shell(GUARD_COMMAND));
+                    success = controllerHidden(client.shell(GUARD_COMMAND, recovering ? 1500 : 12000));
                     message = success ? "音量 GUI 已拦截" : "控制器未清除：将重试，请检查电视系统兼容性";
                 } catch (Exception exception) {
                     message = "ADB 连接或授权失败，将自动重试：" + exception.getMessage();
@@ -143,9 +155,9 @@ public final class VolumeGuardAccessibilityService extends AccessibilityService 
                     inFlight = false;
                     if (!running) return;
                     status(this, result, ok);
+                    if (ok && failures > 0) Log.i(TAG, "volume guard recovered after connection failure");
                     failures = ok ? 0 : Math.min(failures + 1, 4);
-                    long delay = ok ? 5000 : Math.min(1000L << (failures - 1), 8000);
-                    if (pending && ok) delay = 300;
+                    long delay = timing.nextDelay(SystemClock.uptimeMillis(), ok, failures, pending);
                     pending = false;
                     handler.removeCallbacks(guard);
                     handler.postDelayed(guard, delay);
